@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#FBF7F0" />
+  <title>유건이의 첫 생일</title>
+  <meta name="description" content="2026년 5월 23일, 유건이의 첫 생일에 초대합니다." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    * { margin: 0; padding: 0; }
+
+    :root {
+      --cream: #FBF7F0;
+      --warm: #F6EFE4;
+      --white: #FFFDFC;
+      --blush: #F0C6C0;
+      --rose: #D97B7B;
+      --sage: #8FA383;
+      --brown: #7A6358;
+      --text: #4A3B32;
+      --light: #94847B;
+      --shadow: 0 14px 44px rgba(122, 99, 88, .13);
+      --max: 520px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--cream);
+      color: var(--text);
+      font-family: 'Gowun Batang', 'Malgun Gothic', serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      word-break: keep-all;
+    }
+    img { max-width: 100%; display: block; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    #progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      z-index: 999;
+      background: linear-gradient(90deg, var(--blush), var(--rose));
+      transition: width .1s linear;
+    }
+
+    #nav-dots {
+      position: fixed;
+      top: 50%;
+      right: 14px;
+      transform: translateY(-50%);
+      z-index: 120;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 0;
+      background: rgba(122, 99, 88, .24);
+      cursor: pointer;
+      transition: transform .25s ease, background .25s ease;
+    }
+    .dot.active { background: var(--rose); transform: scale(1.45); }
+
+    section {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .section-inner {
+      width: 100%;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+
+    .sec-header {
+      text-align: center;
+      padding: 58px 20px 30px;
+    }
+    .sec-label {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--rose);
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 10px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+    }
+    .sec-title {
+      color: var(--brown);
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: clamp(24px, 7vw, 34px);
+      font-weight: 700;
+      letter-spacing: 4px;
+    }
+    .sec-sub {
+      margin-top: 11px;
+      color: var(--light);
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+    .sec-line {
+      width: 42px;
+      height: 1.5px;
+      margin: 16px auto 0;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--blush), var(--rose));
+    }
+
+    /* 1. COVER */
+    #cover {
+      background: var(--cream);
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cover-card {
+      width: 100%;
+      max-width: var(--max);
+      margin: 0 auto;
+      background: var(--cream);
+    }
+    .cover-card img {
+      width: 100%;
+      height: auto;
+    }
+    .cover-overlay {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 120px;
+      background: linear-gradient(to bottom, transparent, var(--cream));
+      pointer-events: none;
+    }
+    .scroll-hint {
+      position: absolute;
+      bottom: max(28px, env(safe-area-inset-bottom));
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--brown);
+      opacity: .7;
+      animation: bounce 1.6s ease-in-out infinite;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+    }
+    .scroll-hint span {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--brown);
+    }
+    .scroll-hint svg { color: var(--brown); }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* 2. INVITATION */
+    #invite {
+      background: var(--warm);
+      padding: 50px 0 62px;
+    }
+    .invite-img {
+      width: min(92vw, var(--max));
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      background: var(--white);
+    }
+
+    /* 3. GALLERY */
+    #gallery {
+      background: var(--cream);
+      padding-bottom: 72px;
+    }
+    .gallery-grid {
+      width: 100%;
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 0 12px;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+    }
+    .photo-item {
+      position: relative;
+      overflow: hidden;
+      border: 0;
+      border-radius: 14px;
+      background: var(--warm);
+      box-shadow: 0 6px 22px rgba(122, 99, 88, .08);
+      cursor: pointer;
+    }
+    .photo-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .38s ease, filter .38s ease;
+    }
+    .photo-item:active img,
+    .photo-item:hover img { transform: scale(1.035); }
+    .photo-item::after {
+      content: '＋';
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,.72);
+      color: var(--brown);
+      font-size: 16px;
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+    .photo-item:hover::after { opacity: 1; }
+
+    .photo-item:nth-child(1) { grid-column: span 3; aspect-ratio: 3 / 4; }
+    .photo-item:nth-child(2) { grid-column: span 3; aspect-ratio: 3 / 4; }
+    .photo-item:nth-child(3) { grid-column: span 4; aspect-ratio: 4 / 5; }
+    .photo-item:nth-child(4) { grid-column: span 2; aspect-ratio: 2 / 5; }
+    .photo-item:nth-child(5) { grid-column: span 2; aspect-ratio: 3 / 4; }
+    .photo-item:nth-child(6) { grid-column: span 2; aspect-ratio: 3 / 4; }
+    .photo-item:nth-child(7) { grid-column: span 2; aspect-ratio: 3 / 4; }
+    .photo-item:nth-child(8) { grid-column: span 3; aspect-ratio: 4 / 5; }
+    .photo-item:nth-child(9) { grid-column: span 3; aspect-ratio: 4 / 5; }
+    .photo-item:nth-child(10) { grid-column: span 3; aspect-ratio: 3 / 4; }
+    .photo-item:nth-child(11) { grid-column: span 3; aspect-ratio: 3 / 4; }
+
+    /* 4. LOCATION */
+    #location {
+      background: var(--warm);
+      padding-bottom: 72px;
+    }
+    .map-wrap {
+      width: 92%;
+      max-width: var(--max);
+      margin: 0 auto 22px;
+      overflow: hidden;
+      border-radius: 16px;
+      background: var(--white);
+      box-shadow: var(--shadow);
+    }
+    .map-wrap img { width: 100%; height: auto; }
+    .loc-card {
+      width: 92%;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 24px 20px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.88);
+      box-shadow: 0 8px 28px rgba(122, 99, 88, .09);
+      text-align: center;
+    }
+    .loc-name {
+      color: var(--brown);
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      margin-bottom: 7px;
+    }
+    .loc-addr {
+      color: var(--light);
+      font-size: 14px;
+      line-height: 1.75;
+      margin-bottom: 18px;
+    }
+    .loc-info {
+      display: grid;
+      gap: 6px;
+      margin: 0 0 18px;
+      padding: 14px 12px;
+      border-radius: 12px;
+      background: var(--cream);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+    .map-btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .map-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      transition: transform .2s ease, opacity .2s ease;
+    }
+    .map-btn:active { transform: scale(.98); opacity: .8; }
+    .btn-kakao { background: #FAE100; color: #3C1E1E; }
+    .btn-naver { background: #03C75A; color: #fff; }
+
+
+    /* Music button */
+    #music-btn {
+      position: fixed;
+      bottom: max(26px, env(safe-area-inset-bottom));
+      left: 18px;
+      z-index: 220;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(217,123,123,.35);
+      background: rgba(255,255,255,.88);
+      box-shadow: 0 4px 20px rgba(122,99,88,.18);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: var(--brown);
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    #music-btn:active { transform: scale(.92); }
+    #music-btn.playing { animation: music-pulse 2s ease-in-out infinite; }
+    @keyframes music-pulse {
+      0%, 100% { box-shadow: 0 4px 20px rgba(217,123,123,.18); }
+      50% { box-shadow: 0 4px 28px rgba(217,123,123,.45); }
+    }
+    #music-label {
+      position: fixed;
+      bottom: max(33px, calc(env(safe-area-inset-bottom) + 33px));
+      left: 74px;
+      z-index: 219;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.76);
+      color: var(--light);
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 11px;
+      letter-spacing: 1px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .35s ease;
+      white-space: nowrap;
+    }
+    #music-label.show { opacity: 1; }
+
+    footer {
+      background: var(--cream);
+      padding: 44px 24px 64px;
+      border-top: 1px solid rgba(122,99,88,.1);
+      text-align: center;
+    }
+    .hearts { margin-bottom: 14px; color: var(--rose); font-size: 20px; animation: heartbeat 1.8s ease-in-out infinite; }
+    @keyframes heartbeat { 50% { transform: scale(1.14); } }
+    .footer-name {
+      margin-bottom: 10px;
+      color: var(--brown);
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 19px;
+      letter-spacing: 6px;
+    }
+    .footer-sub {
+      color: var(--light);
+      font-size: 12px;
+      line-height: 2;
+      letter-spacing: 1.5px;
+    }
+
+    /* Lightbox */
+    #lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 20px;
+      background: rgba(29, 20, 16, .94);
+    }
+    #lightbox.open { display: flex; }
+    #lb-img {
+      max-width: 96vw;
+      max-height: 84svh;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.48);
+    }
+    .lb-btn {
+      position: absolute;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(255,255,255,.14);
+      color: #fff;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+    #lb-close { top: max(18px, env(safe-area-inset-top)); right: 18px; width: 42px; height: 42px; font-size: 20px; }
+    #lb-prev, #lb-next { top: 50%; width: 44px; height: 44px; transform: translateY(-50%); font-size: 26px; }
+    #lb-prev { left: 10px; }
+    #lb-next { right: 10px; }
+    #lb-counter {
+      margin-top: 14px;
+      color: rgba(255,255,255,.68);
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 13px;
+      letter-spacing: 2px;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    .petal {
+      position: absolute;
+      pointer-events: none;
+      color: var(--rose);
+      opacity: .18;
+      font-size: 18px;
+      animation: petal-fall linear infinite;
+    }
+    @keyframes petal-fall {
+      0% { transform: translateY(-40px) rotate(0deg); opacity: 0; }
+      12% { opacity: .18; }
+      100% { transform: translateY(110svh) rotate(360deg); opacity: 0; }
+    }
+
+    @media (min-width: 620px) {
+      body { background: #EFE7DC; }
+      #cover, #invite, #gallery, #location, footer { width: min(100%, 560px); margin: 0 auto; }
+      #nav-dots { right: calc(50% - 295px); }
+    }
+
+    @media (max-width: 380px) {
+      .section-inner { padding: 0 12px; }
+      .gallery-grid { gap: 6px; padding: 0 9px; }
+      .loc-card { padding: 22px 16px; }
+      .map-btns { grid-template-columns: 1fr; }
+      #nav-dots { right: 9px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="progress"></div>
+
+  <audio id="bgm" src="assets/audio/feel-good-promo.mp3" preload="auto" loop autoplay playsinline></audio>
+  <button id="music-btn" class="playing" type="button" aria-label="배경음악 켜기/끄기">♪</button>
+  <div id="music-label" class="show">음악 재생 중</div>
+
+  <nav id="nav-dots" aria-label="초대장 이동 메뉴">
+    <button class="dot active" type="button" data-target="cover" aria-label="표지로 이동"></button>
+    <button class="dot" type="button" data-target="invite" aria-label="초대장으로 이동"></button>
+    <button class="dot" type="button" data-target="gallery" aria-label="포토 갤러리로 이동"></button>
+    <button class="dot" type="button" data-target="location" aria-label="오시는 길로 이동"></button>
+  </nav>
+
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="사진 크게 보기">
+    <button id="lb-close" class="lb-btn" type="button" aria-label="닫기">×</button>
+    <button id="lb-prev" class="lb-btn" type="button" aria-label="이전 사진">‹</button>
+    <img id="lb-img" src="" alt="유건이 사진 크게 보기" />
+    <button id="lb-next" class="lb-btn" type="button" aria-label="다음 사진">›</button>
+    <div id="lb-counter"></div>
+  </div>
+
+  <section id="cover" data-section="cover">
+    <div class="cover-card">
+      <img src="assets/images/1.jpg" alt="유건이의 첫 생일 표지" fetchpriority="high" />
+    </div>
+    <div class="cover-overlay" aria-hidden="true"></div>
+    <button class="scroll-hint" type="button" onclick="scrollToSection('invite')" aria-label="아래로 이동">
+      <span>SCROLL</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
+  </section>
+
+  <section id="invite" data-section="invite">
+    <div class="section-inner fade-in">
+      <div class="sec-header">
+        <span class="sec-label">Invitation</span>
+        <h1 class="sec-title">초대합니다</h1>
+        <div class="sec-line"></div>
+      </div>
+      <div class="invite-img">
+        <img src="assets/images/2.jpg" alt="유건이의 첫 생일 초대장" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery" data-section="gallery">
+    <div class="sec-header fade-in">
+      <span class="sec-label">Gallery</span>
+      <h2 class="sec-title">포토 갤러리</h2>
+      <p class="sec-sub">유건이의 사랑스러운 순간들</p>
+      <div class="sec-line"></div>
+    </div>
+
+    <div class="gallery-grid fade-in" id="galleryGrid" aria-label="유건이 사진 갤러리"></div>
+  </section>
+
+  <section id="location" data-section="location">
+    <div class="sec-header fade-in">
+      <span class="sec-label">Location</span>
+      <h2 class="sec-title">오시는 길</h2>
+      <p class="sec-sub">어우늘 · 제주 제주시 연북로 222</p>
+      <div class="sec-line"></div>
+    </div>
+
+    <div class="map-wrap fade-in">
+      <img src="assets/images/map.png" alt="어우늘 위치 약도" loading="lazy" />
+    </div>
+
+    <div class="loc-card fade-in">
+      <div class="loc-name">어우늘</div>
+      <div class="loc-addr">제주 제주시 연북로 222</div>
+      <div class="loc-info">
+        <div>2026. 05. 23. 토요일</div>
+        <div>오전 11:00 ~ 오후 15:00</div>
+      </div>
+      <div class="map-btns">
+        <a class="map-btn btn-kakao" href="https://map.kakao.com/link/search/%EC%A0%9C%EC%A3%BC%20%EC%A0%9C%EC%A3%BC%EC%8B%9C%20%EC%97%B0%EB%B6%81%EB%A1%9C%20222" target="_blank" rel="noopener">카카오맵</a>
+        <a class="map-btn btn-naver" href="https://map.naver.com/p/search/%EC%A0%9C%EC%A3%BC%20%EC%A0%9C%EC%A3%BC%EC%8B%9C%20%EC%97%B0%EB%B6%81%EB%A1%9C%20222" target="_blank" rel="noopener">네이버지도</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="hearts">♥</div>
+    <div class="footer-name">유건이의 첫 생일</div>
+    <div class="footer-sub">
+      귀한 걸음으로 함께 축하해 주세요.<br />
+      2026.05.23
+    </div>
+  </footer>
+
+  <script>
+    const galleryPhotos = [
+      'assets/images/gallery1.jpg',
+      'assets/images/gallery2.jpg',
+      'assets/images/gallery3.jpg',
+      'assets/images/gallery4.jpg',
+      'assets/images/gallery5.jpg',
+      'assets/images/gallery6.jpg',
+      'assets/images/gallery7.jpg',
+      'assets/images/gallery8.jpg',
+      'assets/images/gallery9.jpg',
+      'assets/images/gallery10.jpg',
+      'assets/images/gallery11.JPG'
+    ];
+
+    const galleryGrid = document.getElementById('galleryGrid');
+    galleryPhotos.forEach((src, index) => {
+      const button = document.createElement('button');
+      button.className = 'photo-item';
+      button.type = 'button';
+      button.setAttribute('aria-label', `유건이 사진 ${index + 1} 크게 보기`);
+      button.innerHTML = `<img src="${src}" alt="유건이 사진 ${index + 1}" loading="lazy">`;
+      button.addEventListener('click', () => openLb(index));
+      galleryGrid.appendChild(button);
+    });
+
+    const sections = [...document.querySelectorAll('[data-section]')];
+    const dots = [...document.querySelectorAll('.dot')];
+
+    function scrollToSection(id) {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => scrollToSection(dot.dataset.target));
+    });
+
+    function updateProgress() {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const percent = max > 0 ? (window.scrollY / max) * 100 : 0;
+      document.getElementById('progress').style.width = `${percent}%`;
+    }
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const id = entry.target.id;
+        dots.forEach(dot => dot.classList.toggle('active', dot.dataset.target === id));
+      });
+    }, { threshold: 0.45 });
+
+    sections.forEach(section => sectionObserver.observe(section));
+
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.14 });
+
+    document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+
+    const bgm = document.getElementById('bgm');
+    const musicBtn = document.getElementById('music-btn');
+    const musicLabel = document.getElementById('music-label');
+    let bgmStarted = false;
+
+    async function playBgm() {
+      try {
+        bgm.muted = false;
+        await bgm.play();
+        bgmStarted = true;
+        musicBtn.classList.add('playing');
+        musicBtn.textContent = '♪';
+        musicBtn.setAttribute('aria-label', '배경음악 끄기');
+        musicLabel.textContent = '음악 재생 중';
+        musicLabel.classList.add('show');
+        setTimeout(() => musicLabel.classList.remove('show'), 2400);
+      } catch (error) {
+        musicBtn.classList.remove('playing');
+        musicBtn.textContent = '▶';
+        musicBtn.setAttribute('aria-label', '배경음악 켜기');
+        musicLabel.textContent = '음악을 켜려면 터치해 주세요';
+        musicLabel.classList.add('show');
+      }
+    }
+
+    function pauseBgm() {
+      bgm.pause();
+      bgmStarted = false;
+      musicBtn.classList.remove('playing');
+      musicBtn.textContent = '▶';
+      musicBtn.setAttribute('aria-label', '배경음악 켜기');
+      musicLabel.textContent = '음악 꺼짐';
+      musicLabel.classList.add('show');
+      setTimeout(() => musicLabel.classList.remove('show'), 1600);
+    }
+
+    musicBtn.addEventListener('click', (event) => {
+      event.stopPropagation();
+      if (bgm.paused) playBgm();
+      else pauseBgm();
+    });
+
+    // 모바일 브라우저는 정책상 소리 있는 자동재생을 막을 수 있어,
+    // 첫 터치/클릭이 들어오면 즉시 한 번 더 재생을 시도합니다.
+    ['pointerdown', 'touchstart', 'click'].forEach(eventName => {
+      document.addEventListener(eventName, () => {
+        if (!bgmStarted && bgm.paused) playBgm();
+      }, { once: true, passive: true });
+    });
+
+    window.addEventListener('DOMContentLoaded', playBgm);
+    window.addEventListener('load', playBgm);
+
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
+    const lbCounter = document.getElementById('lb-counter');
+    let currentIndex = 0;
+
+    function openLb(index) {
+      currentIndex = index;
+      renderLb();
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLb() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+      lbImg.src = '';
+    }
+
+    function lbNav(dir) {
+      currentIndex = (currentIndex + dir + galleryPhotos.length) % galleryPhotos.length;
+      renderLb();
+    }
+
+    function renderLb() {
+      lbImg.src = galleryPhotos[currentIndex];
+      lbCounter.textContent = `${currentIndex + 1} / ${galleryPhotos.length}`;
+    }
+
+    document.getElementById('lb-close').addEventListener('click', closeLb);
+    document.getElementById('lb-prev').addEventListener('click', () => lbNav(-1));
+    document.getElementById('lb-next').addEventListener('click', () => lbNav(1));
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLb(); });
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLb();
+      if (e.key === 'ArrowLeft') lbNav(-1);
+      if (e.key === 'ArrowRight') lbNav(1);
+    });
+
+    // 작은 꽃잎 장식: 파일 용량을 늘리지 않는 CSS/문자 기반 효과입니다.
+    const petalLayer = document.createElement('div');
+    petalLayer.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(petalLayer);
+    for (let i = 0; i < 12; i++) {
+      const petal = document.createElement('span');
+      petal.className = 'petal';
+      petal.textContent = i % 2 ? '✿' : '♥';
+      petal.style.left = `${Math.random() * 100}%`;
+      petal.style.top = `${-10 - Math.random() * 70}px`;
+      petal.style.animationDuration = `${10 + Math.random() * 9}s`;
+      petal.style.animationDelay = `${Math.random() * 8}s`;
+      petal.style.fontSize = `${12 + Math.random() * 10}px`;
+      document.body.appendChild(petal);
+    }
+  </script>
+</body>
+</html>
